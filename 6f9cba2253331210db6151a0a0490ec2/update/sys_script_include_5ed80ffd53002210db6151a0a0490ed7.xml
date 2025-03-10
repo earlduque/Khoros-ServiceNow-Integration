@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_1468549_khoros_s.Khoros</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>Khoros</name>
+        <script><![CDATA[var Khoros = Class.create(); // Documentation at https://gist.github.com/earlduque/f9ec94cff8c6179748dc621d33586863
+Khoros.prototype = {
+    initialize: function() {
+        let token = '';
+        this.getSessionToken();
+    },
+
+    /**
+     * Gets message information from the Khoros API for one or more message IDs
+     * @param {string|string[]} messageId - Single message ID or array of message IDs to retrieve
+     * @returns {Object|Object[]} Message information object(s) from the API response
+     */
+    getMessageInfo: function(messageId) {
+        const makeRequest = (id) => {
+            const messageReq = new sn_ws.RESTMessageV2();
+            messageReq.setEndpoint(`https://www.servicenow.com/community/s/api/2.0/messages/${id}`);
+            messageReq.setHttpMethod('GET');
+            messageReq.setRequestHeader('Content-Type', "application/json");
+            messageReq.setRequestHeader('User-Agent', "ServiceNow");
+            messageReq.setRequestHeader('li-api-session-key', this.token);
+            const messageResponse = messageReq.execute().getBody();
+            return JSON.parse(messageResponse);
+        };
+
+        if (Array.isArray(messageId)) {
+            return messageId.map(id => makeRequest(id));
+        } else {
+            return [makeRequest(messageId)];
+        }
+    },
+
+    /**
+     * Gets kudos information from the Khoros API for one or more message IDs
+     * @param {string|string[]} messageId - Single message ID or array of message IDs to retrieve kudos for
+     * @returns {Object|Object[]} Kudos information object(s) from the API response
+     */
+    getKudos: function(messageId) {
+        const makeRequest = (id) => {
+            const kudosRequest = new sn_ws.RESTMessageV2();
+            kudosRequest.setEndpoint('https://www.servicenow.com/community/s/api/2.0/search');
+            kudosRequest.setQueryParameter('q', `SELECT * FROM kudos WHERE message.id = '${id}'`);
+            kudosRequest.setHttpMethod('GET');
+            kudosRequest.setRequestHeader('Content-Type', "application/json");
+            kudosRequest.setRequestHeader('User-Agent', "ServiceNow");
+            kudosRequest.setRequestHeader('li-api-session-key', this.token);
+            const kudosResponse = kudosRequest.execute();
+            return JSON.parse(kudosResponse.getBody());
+        };
+
+        if (Array.isArray(messageId)) {
+            return messageId.map(id => makeRequest(id));
+        } else {
+            return [makeRequest(messageId)];
+        }
+    },
+
+	/**
+     * Gets reply messages from the Khoros API for one or more message IDs
+     * @param {string|string[]} messageId - Single message ID or array of message IDs to retrieve replies for
+     * @returns {Object|Object[]} Reply message information object(s) from the API response
+     */
+    getReplies: function(messageId) {
+        const makeRequest = (id) => {
+            const repliesRequest = new sn_ws.RESTMessageV2();
+            repliesRequest.setEndpoint('https://www.servicenow.com/community/s/api/2.0/search');
+            repliesRequest.setQueryParameter('q', `SELECT * FROM messages WHERE parent.id = '${id}'`);
+            repliesRequest.setHttpMethod('GET');
+            repliesRequest.setRequestHeader('Content-Type', "application/json");
+            repliesRequest.setRequestHeader('User-Agent', "ServiceNow");
+            repliesRequest.setRequestHeader('li-api-session-key', this.token);
+            const repliesResponse = repliesRequest.execute();
+            return JSON.parse(repliesResponse.getBody());
+        };
+
+        if (Array.isArray(messageId)) {
+            return messageId.map(id => makeRequest(id));
+        } else {
+            return [makeRequest(messageId)];
+        }
+    },
+
+    handleArrayRequests: function(values, makeQuery) {
+        if (Array.isArray(values)) {
+            return values.map(value => this.getUserInfo(value, makeQuery(value)));
+        } else {
+            return [this.getUserInfo(values, makeQuery(values))];
+        }
+    },
+
+    /**
+     * Gets user information from the Khoros API by email address
+     * @param {string|string[]} email - Single email address or array of email addresses to search
+     * @returns {Object|Object[]} User information object(s) from the API response
+     */
+    getUserInfoByEmail: function(email) {
+        const makeQuery = (email) => `SELECT * FROM users WHERE email = '${email}'`;
+        return this.handleArrayRequests(email, makeQuery);
+    },
+
+    /**
+     * Gets user information from the Khoros API by SSO ID
+     * @param {string|string[]} SSOid - Single SSO ID or array of SSO IDs to search
+     * @returns {Object|Object[]} User information object(s) from the API response
+     */
+    getUserInfoBySSOId: function(SSOid) {
+        const makeQuery = (SSOid) => `SELECT * FROM users WHERE sso_id = '${SSOid}'`;
+        return this.handleArrayRequests(SSOid, makeQuery);
+    },
+
+    getUserInfo: function(userId, q) {
+        const makeRequest = (id) => {
+            const userRequest = new sn_ws.RESTMessageV2();
+            userRequest.setEndpoint('https://www.servicenow.com/community/s/api/2.0/search');
+            userRequest.setQueryParameter('q', q);
+            userRequest.setHttpMethod('GET');
+            userRequest.setRequestHeader('Content-Type', "application/json");
+            userRequest.setRequestHeader('User-Agent', "ServiceNow");
+            userRequest.setRequestHeader('li-api-session-key', this.token);
+            const userResponse = userRequest.execute();
+            return JSON.parse(userResponse.getBody());
+        };
+
+        return makeRequest(userId);
+    },
+
+	/**
+     * Gets user information from the Khoros API by user ID
+     * @param {string|string[]} userId - Single user ID or array of user IDs to search
+     * @returns {Object|Object[]} User information object(s) from the API response
+     */
+    getUserInfoByUserId: function(userId) {
+        const makeRequest = (id) => {
+            const userReq = new sn_ws.RESTMessageV2();
+            userReq.setEndpoint(`https://www.servicenow.com/community/s/api/2.0/users/${id}`);
+            userReq.setHttpMethod('GET');
+            userReq.setRequestHeader('Content-Type', "application/json");
+            userReq.setRequestHeader('User-Agent', "ServiceNow");
+            userReq.setRequestHeader('li-api-session-key', this.token);
+            const messageResponse = userReq.execute().getBody();
+            return JSON.parse(messageResponse);
+        };
+
+        if (Array.isArray(userId)) {
+            return userId.map(id => makeRequest(id));
+        } else {
+            return [makeRequest(userId)];
+        }
+    },
+
+    getSessionToken: function() {
+        const credentialAlias = 'ad20177953402210db6151a0a0490e31';
+        const provider = new sn_cc.StandardCredentialsProvider();
+        const cred = provider.getCredentialByAliasID(credentialAlias);
+
+        const tokenReq = new sn_ws.RESTMessageV2();
+        tokenReq.setEndpoint('https://www.servicenow.com/community/s/restapi/vc/authentication/sessions/login');
+        tokenReq.setHttpMethod("POST");
+        tokenReq.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+        tokenReq.setRequestHeader('User-Agent', "ServiceNow");
+        tokenReq.setRequestBody('restapi.response_format=json&user.login=' + cred.getAttribute('user_name') + '&user.password=' + cred.getAttribute('password'));
+        const tokenResponse = tokenReq.execute().getBody();
+        this.token = JSON.parse(tokenResponse).response.value.$;
+    },
+
+    type: 'Khoros'
+};
+
+// const call = new x_1468549_khoros_s.Khoros().getMessageInfo('3177860');
+// const call = new x_1468549_khoros_s.Khoros().getMessageInfo(['3150081','3133179']);
+// const call = new x_1468549_khoros_s.Khoros().getUserInfoByEmail('earl.duque@servicenow.com');
+// const call = new x_1468549_khoros_s.Khoros().getUserInfoByEmail(['earl.duque@servicenow.com','travis.toulson@servicenow.com']);
+// const call = new x_1468549_khoros_s.Khoros().getUserInfoBySSOId('00us80gmv3pZoMLw80x7');
+// const call = new x_1468549_khoros_s.Khoros().getUserInfoBySSOId(['00us80gmv3pZoMLw80x7','00u17vdc87995Knjx0x8']);
+// const call = new x_1468549_khoros_s.Khoros().getUserInfoByUserId('91225');
+// const call = new x_1468549_khoros_s.Khoros().getUserInfoByUserId(['91225','841874','665969','238044','854334','833211','174084','794756','357056','6676','536998']);
+// const call = new x_1468549_khoros_s.Khoros().getKudos('3162041');
+// const call = new x_1468549_khoros_s.Khoros().getReplies('3162041');
+// gs.info(JSON.stringify(call));]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-03 21:57:33</sys_created_on>
+        <sys_id>5ed80ffd53002210db6151a0a0490ed7</sys_id>
+        <sys_mod_count>84</sys_mod_count>
+        <sys_name>Khoros</sys_name>
+        <sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope>
+        <sys_update_name>sys_script_include_5ed80ffd53002210db6151a0a0490ed7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-04 07:29:33</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>5ed80ffd53002210db6151a0a0490ed7</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-03 21:57:32</sys_created_on>
+        <sys_id>c8094f7553002210db6151a0a0490e1f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-03 21:57:32</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

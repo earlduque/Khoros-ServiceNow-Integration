@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_definition">
+    <sys_ws_definition action="DELETE">
+        <active>true</active>
+        <base_uri>/api/x_1468549_khoros_s/khoros_api</base_uri>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_version>No active default version</default_version>
+        <doc_link/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <is_versioned>false</is_versioned>
+        <name>Khoros API</name>
+        <namespace>x_1468549_khoros_s</namespace>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <service_id>khoros_api</service_id>
+        <short_description/>
+        <sys_class_name>sys_ws_definition</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-02-21 18:52:56</sys_created_on>
+        <sys_id>78de362e53331210db6151a0a0490ee5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Khoros API</sys_name>
+        <sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope>
+        <sys_update_name>sys_ws_definition_78de362e53331210db6151a0a0490ee5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-02-21 18:52:56</sys_updated_on>
+    </sys_ws_definition>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</application>
+        <file_path/>
+        <instance_id>1cd6e4481b9ace94c8432f8dee4bcbce</instance_id>
+        <instance_name>dev271501</instance_name>
+        <name>sys_ws_definition_78de362e53331210db6151a0a0490ee5</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_definition"><sys_ws_definition action="INSERT_OR_UPDATE"><active>true</active><base_uri>/api/x_1468549_khoros_s/khoros_api</base_uri><consumes>application/json,application/xml,text/xml</consumes><consumes_customized>false</consumes_customized><default_version>No active default version</default_version><doc_link/><enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl><is_versioned>false</is_versioned><name>Khoros API</name><namespace>x_1468549_khoros_s</namespace><produces>application/json,application/xml,text/xml</produces><produces_customized>false</produces_customized><service_id>khoros_api</service_id><short_description/><sys_class_name>sys_ws_definition</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-02-21 18:52:56</sys_created_on><sys_id>78de362e53331210db6151a0a0490ee5</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Khoros API</sys_name><sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package><sys_policy/><sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope><sys_update_name>sys_ws_definition_78de362e53331210db6151a0a0490ee5</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-02-21 18:52:56</sys_updated_on></sys_ws_definition></record_update>]]></payload>
+        <payload_hash>-986787263</payload_hash>
+        <record_name>Khoros API</record_name>
+        <reverted_from/>
+        <source>e39cba2253331210db6151a0a0490ec7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-02-21 18:52:56</sys_created_on>
+        <sys_id>16de762e53331210db6151a0a0490e5d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19529db0caf0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-02-21 18:52:56</sys_updated_on>
+        <type>Scripted REST API</type>
+        <update_guid>1ade762e9a33121035c7f12ffd27325c</update_guid>
+        <update_guid_history>1ade762e9a33121035c7f12ffd27325c:-986787263</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-02-21 18:55:44</sys_created_on>
+        <sys_db_object display_value="" name="sys_ws_definition">sys_ws_definition</sys_db_object>
+        <sys_id>375bbf8ed83540bc946b5dbe399df390</sys_id>
+        <sys_metadata>78de362e53331210db6151a0a0490ee5</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Khoros API</sys_name>
+        <sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope>
+        <sys_scope_delete display_value="">155928311f2f41a3a85151bb33c8d869</sys_scope_delete>
+        <sys_update_name>sys_ws_definition_78de362e53331210db6151a0a0490ee5</sys_update_name>
+        <sys_update_version display_value="sys_ws_definition_78de362e53331210db6151a0a0490ee5">16de762e53331210db6151a0a0490e5d</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-02-21 18:55:44</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

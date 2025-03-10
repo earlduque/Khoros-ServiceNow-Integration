@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="oauth_entity">
+    <oauth_entity action="DELETE">
+        <access>public</access>
+        <access_token_lifespan>1800</access_token_lifespan>
+        <active>true</active>
+        <auth_code_lifespan>0</auth_code_lifespan>
+        <auth_url>https://www.servicenow.com/community/s/api/2.0/auth/authorize</auth_url>
+        <certificate_url/>
+        <client_id>LjNf6cnDwXInRIvwrHgQf+hnUd1nC+CFPltbEE1Qxko=</client_id>
+        <client_secret>﷞﷟﷒62bc1f8d4777021005829889316d4368﷬﷔1﷬﷭zQL6f437HUJYjFoLtej62g==mhlLyRA07iEBY9sOvThf2sSLd1ladYDwYee_TAjkovYhszXMmPmZtCpsEyHwB_0N_jI3JGlQH-jVECWo﷮﷯</client_secret>
+        <client_type/>
+        <client_uuid>2ddc7a6a53331210db6151a0a0490edc</client_uuid>
+        <code_challenge_method>S256</code_challenge_method>
+        <comments/>
+        <default_grant_type>authorization_code</default_grant_type>
+        <id_token_lifespan>0</id_token_lifespan>
+        <jwt_provider/>
+        <login_url/>
+        <logo_url/>
+        <message_signature_lifespan>0</message_signature_lifespan>
+        <mobile_client>false</mobile_client>
+        <name>Khoros API</name>
+        <oauth_api_script/>
+        <protocol_name/>
+        <public_client>false</public_client>
+        <redirect_url>https://dev271501.service-now.com/oauth_redirect.do</redirect_url>
+        <refresh_token_lifespan>8640000</refresh_token_lifespan>
+        <refresh_token_url/>
+        <restricted_binding>false</restricted_binding>
+        <revoke_token_url/>
+        <salt>0</salt>
+        <send_client_credentials_as>request_body_parameter</send_client_credentials_as>
+        <skip_authorize>false</skip_authorize>
+        <sys_class_name>oauth_entity</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-02-21 18:46:16</sys_created_on>
+        <sys_id>addc7a6a53331210db6151a0a0490edc</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>Khoros API</sys_name>
+        <sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope>
+        <sys_update_name>oauth_entity_addc7a6a53331210db6151a0a0490edc</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-02-26 19:47:35</sys_updated_on>
+        <token_url>https://www.servicenow.com/community/s/api/2.0/auth/accessToken</token_url>
+        <type>oauth_provider</type>
+        <use_mutual_auth>false</use_mutual_auth>
+        <user/>
+    </oauth_entity>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</application>
+        <file_path/>
+        <instance_id>1cd6e4481b9ace94c8432f8dee4bcbce</instance_id>
+        <instance_name>dev271501</instance_name>
+        <name>oauth_entity_addc7a6a53331210db6151a0a0490edc</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="oauth_entity"><oauth_entity action="INSERT_OR_UPDATE"><access>public</access><access_token_lifespan>1800</access_token_lifespan><active>true</active><auth_code_lifespan>0</auth_code_lifespan><auth_url>https://www.servicenow.com/community/s/api/2.0/auth/authorize</auth_url><certificate_url/><client_id>LjNf6cnDwXInRIvwrHgQf+hnUd1nC+CFPltbEE1Qxko=</client_id><client_secret>﷞﷟﷒62bc1f8d4777021005829889316d4368﷬﷔1﷬﷭zQL6f437HUJYjFoLtej62g==mhlLyRA07iEBY9sOvThf2sSLd1ladYDwYee_TAjkovYhszXMmPmZtCpsEyHwB_0N_jI3JGlQH-jVECWo﷮﷯</client_secret><client_type/><client_uuid>2ddc7a6a53331210db6151a0a0490edc</client_uuid><code_challenge_method>S256</code_challenge_method><comments/><default_grant_type>authorization_code</default_grant_type><id_token_lifespan>0</id_token_lifespan><jwt_provider/><login_url/><logo_url/><message_signature_lifespan>0</message_signature_lifespan><mobile_client>false</mobile_client><name>Khoros API</name><oauth_api_script/><protocol_name/><public_client>false</public_client><redirect_url>https://dev271501.service-now.com/oauth_redirect.do</redirect_url><refresh_token_lifespan>8640000</refresh_token_lifespan><refresh_token_url/><restricted_binding>false</restricted_binding><revoke_token_url/><salt>0</salt><send_client_credentials_as>request_body_parameter</send_client_credentials_as><skip_authorize>false</skip_authorize><sys_class_name>oauth_entity</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-02-21 18:46:16</sys_created_on><sys_id>addc7a6a53331210db6151a0a0490edc</sys_id><sys_mod_count>13</sys_mod_count><sys_name>Khoros API</sys_name><sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package><sys_policy/><sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope><sys_update_name>oauth_entity_addc7a6a53331210db6151a0a0490edc</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-02-26 19:47:35</sys_updated_on><token_url>https://www.servicenow.com/community/s/api/2.0/auth/accessToken</token_url><type>oauth_provider</type><use_mutual_auth>false</use_mutual_auth><user/></oauth_entity></record_update>]]></payload>
+        <payload_hash>-2067900073</payload_hash>
+        <record_name>Khoros API</record_name>
+        <reverted_from/>
+        <source>e39cba2253331210db6151a0a0490ec7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-02-26 19:47:35</sys_created_on>
+        <sys_id>a74bb09853402210db6151a0a0490ee4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19543cce25a0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-02-26 19:47:35</sys_updated_on>
+        <type>Application Registries</type>
+        <update_guid>ab4b30d4e44022102f566ba7c3cece75</update_guid>
+        <update_guid_history>ab4b30d4e44022102f566ba7c3cece75:-2067900073,2de3f8d491002210f2ee0266a76eb028:287677657,5610f01c8b0022109c68aa5bbd0e90e6:-2067900073,87ff601c2100221048447197bfaa76c1:-2063428702,2edfacd84e0022108f9a842d2e7202bd:1342944299,ec9c6cd4b5002210b96e083794845c4f:1744962814,076c2c94450022106b309a9f7fede36a:2023554225,a25c2c9402002210a392dcac471ce39f:1744962814,ef3c64d4fd0022102222501fa4b391f9:-1625361914,7b2ca894080022105d42db8f8e79bbf5:1744962814,acbbe0949c0022102fba75d94be09d27:1996396305,f8abe094b7002210411db6030a377388:-234119397,978be0948e00221079b52c7453a9cd14:530527556,b05d36aa23331210a07501f781c2d316:1744962814</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Khoros API">b9f549ca53882210db6151a0a0490e61</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-04 07:03:32</sys_created_on>
+        <sys_db_object display_value="" name="oauth_entity">oauth_entity</sys_db_object>
+        <sys_id>210713bad32e4e1887f777d50a581a40</sys_id>
+        <sys_metadata>addc7a6a53331210db6151a0a0490edc</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Khoros API</sys_name>
+        <sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope>
+        <sys_scope_delete display_value="">155928311f2f41a3a85151bb33c8d869</sys_scope_delete>
+        <sys_update_name>oauth_entity_addc7a6a53331210db6151a0a0490edc</sys_update_name>
+        <sys_update_version display_value="oauth_entity_addc7a6a53331210db6151a0a0490edc">a74bb09853402210db6151a0a0490ee4</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-04 07:03:32</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
