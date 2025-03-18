@@ -6,7 +6,6 @@
         <caller_access/>
         <client_callable>false</client_callable>
         <description/>
-        <mobile_callable>false</mobile_callable>
         <name>Khoros</name>
         <script><![CDATA[var Khoros = Class.create(); // Documentation at https://gist.github.com/earlduque/f9ec94cff8c6179748dc621d33586863
 Khoros.prototype = {
@@ -64,7 +63,7 @@ Khoros.prototype = {
         }
     },
 
-	/**
+    /**
      * Gets reply messages from the Khoros API for one or more message IDs
      * @param {string|string[]} messageId - Single message ID or array of message IDs to retrieve replies for
      * @returns {Object|Object[]} Reply message information object(s) from the API response
@@ -107,6 +106,22 @@ Khoros.prototype = {
         return this.handleArrayRequests(email, makeQuery);
     },
 
+    getUserInfoByEmailsSQL: function(email) {
+        const emailQuery = email.join(`','`);
+        const makeQuery = `SELECT * FROM users WHERE email IN ('${emailQuery}')`;
+
+        const userRequest = new sn_ws.RESTMessageV2();
+        userRequest.setEndpoint('https://www.servicenow.com/community/s/api/2.0/search');
+        userRequest.setQueryParameter('q', makeQuery);
+        userRequest.setHttpMethod('GET');
+        userRequest.setRequestHeader('Content-Type', "application/json");
+        userRequest.setRequestHeader('User-Agent', "ServiceNow");
+        userRequest.setRequestHeader('li-api-session-key', this.token);
+        const userResponse = userRequest.execute();
+        return JSON.parse(userResponse.getBody());
+
+    },
+
     /**
      * Gets user information from the Khoros API by SSO ID
      * @param {string|string[]} SSOid - Single SSO ID or array of SSO IDs to search
@@ -133,7 +148,7 @@ Khoros.prototype = {
         return makeRequest(userId);
     },
 
-	/**
+    /**
      * Gets user information from the Khoros API by user ID
      * @param {string|string[]} userId - Single user ID or array of user IDs to search
      * @returns {Object|Object[]} User information object(s) from the API response
@@ -157,11 +172,31 @@ Khoros.prototype = {
         }
     },
 
+    // getSessionToken: function(use_credential = false) {
+
+    // 	if (use_credential){
+    // 		const credentialAlias = 'ad20177953402210db6151a0a0490e31';
+    // 		const provider = new sn_cc.StandardCredentialsProvider();
+    // 		const cred = provider.getCredentialByAliasID(credentialAlias);
+    // 	}
+
+    // 	const username = use_credential ? cred.getAttribute('user_name') : gs.getProperty('KhorosSessionToken.username');
+    // 	const password = use_credential ? cred.getAttribute('password') : gs.getProperty('KhorosSessionToken.password');
+
+    //     const tokenReq = new sn_ws.RESTMessageV2();
+    //     tokenReq.setEndpoint('https://www.servicenow.com/community/s/restapi/vc/authentication/sessions/login');
+    //     tokenReq.setHttpMethod("POST");
+    //     tokenReq.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+    //     tokenReq.setRequestHeader('User-Agent', "ServiceNow");
+    //     tokenReq.setRequestBody('restapi.response_format=json&user.login=' + username + '&user.password=' + password);
+    //     const tokenResponse = tokenReq.execute().getBody();
+    //     this.token = JSON.parse(tokenResponse).response.value.$;
+    // },
+
     getSessionToken: function() {
         const credentialAlias = 'ad20177953402210db6151a0a0490e31';
         const provider = new sn_cc.StandardCredentialsProvider();
         const cred = provider.getCredentialByAliasID(credentialAlias);
-
         const tokenReq = new sn_ws.RESTMessageV2();
         tokenReq.setEndpoint('https://www.servicenow.com/community/s/restapi/vc/authentication/sessions/login');
         tokenReq.setHttpMethod("POST");
@@ -171,6 +206,55 @@ Khoros.prototype = {
         const tokenResponse = tokenReq.execute().getBody();
         this.token = JSON.parse(tokenResponse).response.value.$;
     },
+
+	syncBoard: function(cursor = '', count = 0) {
+		//SELECT * FROM messages WHERE board.id = 'developer-advocate-blog' ORDER BY id ASC CURSOR 'MjUuMnwyLjB8aXwyNXwxNToxfGludCwyNjMzMDI2LDI2MzMzODE'
+        next_cursor = cursor ? ` CURSOR '${cursor}'` : '';
+		const order_by = 'post_time';
+		const makeQuery = `SELECT * FROM messages WHERE board.id = 'developer-advocate-blog' AND depth = 0 ORDER BY ${order_by} ASC${next_cursor}`;
+		// gs.info('query: ' + makeQuery);
+
+        const userRequest = new sn_ws.RESTMessageV2();
+        userRequest.setEndpoint('https://www.servicenow.com/community/s/api/2.0/search');
+        userRequest.setQueryParameter('q', makeQuery);
+        userRequest.setHttpMethod('GET');
+        userRequest.setRequestHeader('Content-Type', "application/json");
+        userRequest.setRequestHeader('User-Agent', "ServiceNow");
+        userRequest.setRequestHeader('li-api-session-key', this.token);
+        const userResponse = userRequest.execute();
+        responseBody = JSON.parse(userResponse.getBody());
+		// gs.info('checkpoint 1: ' + JSON.stringify(responseBody));
+		for (let i of responseBody.data.items){
+			count++;
+			this.checkAM(i, order_by);
+		}
+		// gs.info(`next cursor: ${responseBody.data.next_cursor}`)
+		if (responseBody.data.next_cursor) this.syncBoard(responseBody.data.next_cursor, count);
+		else gs.info('found: ' + count);
+	},
+
+	checkAM: function(record, order_by){
+		const amGr = new GlideRecord('x_snc_artifact_mgr_artifact');
+		amGr.addEncodedQuery(`published_urlLIKEwww.servicenow.com/community/developer-advocate-blog^published_urlLIKE${record.id}`);
+		amGr.query();
+		if (amGr.next()){
+			// gs.info(`${record[order_by]} ${amGr.getValue('number')} exists for ${record.id}`);
+		} else {
+			const newGr = new GlideRecord('x_snc_artifact_mgr_artifact');
+			newGr.newRecord();
+			newGr.setValue('type', 'blog');
+			newGr.setValue('state', 'published');
+			newGr.setValue('publish_by', record.post_time);
+			newGr.setValue('short_description', record.subject);
+			newGr.setValue('description', record.author.login);
+			newGr.setValue('draft_url', record.view_href);
+			newGr.setValue('published_url', record.view_href);
+			newGr.setValue('view_count', record.metrics.views);
+			newGr.insert();
+			// gs.info(`${record[order_by]} ` + newGr.insert() + ` made for ${record.id}`);
+		}
+	},
+
 
     type: 'Khoros'
 };
@@ -189,25 +273,16 @@ Khoros.prototype = {
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-03-03 21:57:33</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>5ed80ffd53002210db6151a0a0490ed7</sys_id>
-        <sys_mod_count>84</sys_mod_count>
+        <sys_mod_count>122</sys_mod_count>
         <sys_name>Khoros</sys_name>
         <sys_package display_value="Khoros Spoke" source="x_1468549_khoros_s">6f9cba2253331210db6151a0a0490ec2</sys_package>
         <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Khoros Spoke">6f9cba2253331210db6151a0a0490ec2</sys_scope>
         <sys_update_name>sys_script_include_5ed80ffd53002210db6151a0a0490ed7</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-03-04 07:29:33</sys_updated_on>
+        <sys_updated_by>Earl.Duque</sys_updated_by>
+        <sys_updated_on>2025-03-18 19:49:58</sys_updated_on>
     </sys_script_include>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>5ed80ffd53002210db6151a0a0490ed7</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2025-03-03 21:57:32</sys_created_on>
-        <sys_id>c8094f7553002210db6151a0a0490e1f</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-03-03 21:57:32</sys_updated_on>
-        <table>sys_script_include</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>
